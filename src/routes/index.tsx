@@ -1,6 +1,7 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 
 import { cn } from '@/shared/utils/cn'
+import { Input } from '@/shared/components/ui/input'
 
 export const Route = createFileRoute('/')({
   component: IndexPage,
@@ -36,6 +37,7 @@ function IndexPage() {
             Create account
           </Link>
         </div>
+        <Input></Input>
       </section>
     </main>
   )

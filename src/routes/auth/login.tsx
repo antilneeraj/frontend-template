@@ -5,10 +5,14 @@ import { authClient } from '@/shared/lib/auth-client'
 
 export const Route = createFileRoute('/auth/login')({
   beforeLoad: async () => {
-    const session = await authClient.getSession()
-
-    if (session.data) {
-      throw redirect({ to: '/dashboard' })
+    try {
+      const session = await authClient.getSession()
+      if (session.data) {
+        throw redirect({ to: '/dashboard' })
+      }
+    } catch (e) {
+      // If redirect was thrown, re-throw it — otherwise treat as unauthenticated
+      if (e instanceof Error === false) throw e
     }
   },
   component: LoginRoute,

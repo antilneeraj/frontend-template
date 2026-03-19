@@ -4,13 +4,16 @@ import { authClient } from '@/shared/lib/auth-client'
 
 export const Route = createFileRoute('/_authenticated')({
   beforeLoad: async () => {
-    const session = await authClient.getSession()
-
-    if (!session.data) {
+    try {
+      const session = await authClient.getSession()
+      if (!session.data) {
+        throw redirect({ to: '/auth/login' })
+      }
+      return { session: session.data }
+    } catch (e) {
+      if (e instanceof Error === false) throw e
       throw redirect({ to: '/auth/login' })
     }
-
-    return { session: session.data }
   },
   component: AuthenticatedLayout,
 })
